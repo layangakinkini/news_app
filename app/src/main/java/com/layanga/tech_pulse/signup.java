@@ -37,11 +37,11 @@ public class signup extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
-        // 🔥 Set up password visibility toggle
+        //Set up password visibility toggle
         setupPasswordToggle(etPassword, true);
         setupPasswordToggle(etConfirmPassword, false);
 
-        // ✅ Handle Sign Up button click
+        //Handle Sign Up button click
         Button btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(signup.this, MainActivity.class);
@@ -49,7 +49,7 @@ public class signup extends AppCompatActivity {
             finish(); // Optional: close signup activity
         });
 
-        // ✅ Handle "Already have an account? Login" click
+        //Handle "Already have an account? Login" click
         TextView tvLogin = findViewById(R.id.tvLogin);
         tvLogin.setOnClickListener(v -> {
             Intent intent = new Intent(signup.this, MainActivity.class);
