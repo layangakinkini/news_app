@@ -74,6 +74,26 @@
 
             <Space android:layout_width="match_parent" android:layout_height="30dp" />
 
+            <!-- Email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:background="@null"
+                android:textColorHint="#888888"
+                android:textColor="#000000"
+                android:paddingBottom="0dp"
+                android:drawableEnd="@drawable/mail_24dp_b7b7b7_fill0_wght400_grad0_opsz24"/>
+
+            <View
+                android:layout_width="260dp"
+                android:layout_height="2dp"
+                android:background="@drawable/gradient_underline" />
+
+            <Space android:layout_width="match_parent" android:layout_height="30dp" />
+
             <!-- Password -->
             <EditText
                 android:id="@+id/etPassword"
@@ -106,26 +126,6 @@
                 android:textColor="#000000"
                 android:paddingBottom="4dp"
                 android:drawableEnd="@drawable/visibility_off_24dp_b7b7b7_fill0_wght400_grad0_opsz24"/>
-
-            <View
-                android:layout_width="260dp"
-                android:layout_height="2dp"
-                android:background="@drawable/gradient_underline" />
-
-            <Space android:layout_width="match_parent" android:layout_height="30dp" />
-
-            <!-- Email -->
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="260dp"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:background="@null"
-                android:textColorHint="#888888"
-                android:textColor="#000000"
-                android:paddingBottom="0dp"
-                android:drawableEnd="@drawable/mail_24dp_b7b7b7_fill0_wght400_grad0_opsz24"/>
 
             <View
                 android:layout_width="260dp"
