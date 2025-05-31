@@ -94,9 +94,9 @@
 
             <Space android:layout_width="match_parent" android:layout_height="100dp" />
 
-            <!-- Sign Up Button -->
+            <!-- login Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSignUp"
+                android:id="@+id/btnlogin"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:text="Login"
@@ -112,7 +112,7 @@
             <Space android:layout_width="match_parent" android:layout_height="20dp" />
 
 
-            <!-- Already have an account? login -->
+            <!-- Don't have an account? signup -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
