@@ -85,7 +85,7 @@
                 android:textColorHint="#888888"
                 android:textColor="#000000"
                 android:paddingBottom="4dp"
-                android:drawableEnd="@drawable/lock_24dp_b7b7b7_fill0_wght400_grad0_opsz24"/>
+                android:drawableEnd="@drawable/visibility_off_24dp_b7b7b7_fill0_wght400_grad0_opsz24"/>
 
             <View
                 android:layout_width="260dp"

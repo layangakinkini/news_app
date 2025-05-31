@@ -7,6 +7,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
+import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
+import android.text.InputType;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +29,7 @@ public class login extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private MaterialButton btnLogin;
     private TextView tvLogin;
+    private boolean isPasswordVisible = false;
 
     private DatabaseReference databaseReference;
 
@@ -48,6 +53,9 @@ public class login extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnlogin);
         tvLogin = findViewById(R.id.tvLogin);
 
+        // *** Setup password visibility toggle ***
+        setupPasswordToggle(etPassword);
+
         //Handle login button click
         btnLogin.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
@@ -67,6 +75,51 @@ public class login extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    // Toggle password visibility icon and behavior
+    private void setupPasswordToggle(EditText passwordEditText) {
+        // Set initial icon (eye closed)
+        updatePasswordDrawable(passwordEditText, isPasswordVisible);
+
+        passwordEditText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                Drawable drawableEnd = passwordEditText.getCompoundDrawables()[2]; // Right drawable
+                if (drawableEnd != null) {
+                    int drawableWidth = drawableEnd.getBounds().width();
+                    int touchX = (int) event.getX();
+                    int width = passwordEditText.getWidth() - passwordEditText.getPaddingEnd();
+
+                    if (touchX >= (width - drawableWidth)) {
+                        // Toggle visibility state
+                        isPasswordVisible = !isPasswordVisible;
+
+                        updateInputType(passwordEditText, isPasswordVisible);
+                        updatePasswordDrawable(passwordEditText, isPasswordVisible);
+
+                        // Move cursor to end
+                        passwordEditText.setSelection(passwordEditText.getText().length());
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
+    }
+
+    private void updateInputType(EditText editText, boolean visible) {
+        if (visible) {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+    }
+
+    private void updatePasswordDrawable(EditText editText, boolean visible) {
+        int icon = visible
+                ? R.drawable.visibility_24dp_b7b7b7_fill0_wght400_grad0_opsz24
+                : R.drawable.visibility_off_24dp_b7b7b7_fill0_wght400_grad0_opsz24;
+        editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, icon, 0);
     }
 
     //Check login credentials
