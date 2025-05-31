@@ -24,6 +24,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class signup extends AppCompatActivity {
 
@@ -79,6 +83,10 @@ public class signup extends AppCompatActivity {
                 return;
             }
 
+            //Create timestamp string for createdAt
+            String createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+
             //Store user in Firebase
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference ref = database.getReference("users");
@@ -89,7 +97,7 @@ public class signup extends AppCompatActivity {
                     if (snapshot.exists()) {
                         Toast.makeText(signup.this, "Username already exists", Toast.LENGTH_SHORT).show();
                     } else {
-                        HelperClass helperClass = new HelperClass(username, email, password);
+                        HelperClass helperClass = new HelperClass(username, email, createdAt, password);
                         ref.child(username).setValue(helperClass)
                                 .addOnSuccessListener(unused -> {
                                     Toast.makeText(signup.this, "Signup successful!", Toast.LENGTH_SHORT).show();
