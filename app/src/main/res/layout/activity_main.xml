@@ -48,6 +48,8 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
+
+
     <!-- ───────────  SCROLLABLE CONTENT  ─────────── -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/news_scroll"
@@ -69,7 +71,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="96dp">       <!-- 96dp keeps last card clear of bottom‑nav -->
 
-            <!-- Subtitle (scrolls) -->
             <TextView
                 android:id="@+id/news_subtitle"
                 android:layout_width="wrap_content"
@@ -80,6 +81,9 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:layout_gravity="center"/>
+
+            <!-- Subtitle (scrolls) -->
+
 
             <!-- ============ CARD #1 ============ -->
             <androidx.cardview.widget.CardView
@@ -123,6 +127,158 @@
             <!-- ============ CARD #2 ============ -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/news_card_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/news_image"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="Curabitur dapibus at magna et aliquet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus rutrum."
+                        android:maxLines="3"
+                        android:ellipsize="end"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Read More"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ============ CARD #3 ============ -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/news_card_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/news_image"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="Curabitur dapibus at magna et aliquet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus rutrum."
+                        android:maxLines="3"
+                        android:ellipsize="end"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Read More"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ============ CARD #4 ============ -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/news_card_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/news_image"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="Curabitur dapibus at magna et aliquet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus rutrum."
+                        android:maxLines="3"
+                        android:ellipsize="end"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Read More"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ============ CARD #5 ============ -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/news_card_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/news_image"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="Curabitur dapibus at magna et aliquet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus rutrum."
+                        android:maxLines="3"
+                        android:ellipsize="end"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Read More"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ============ CARD #6 ============ -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/news_card_6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
