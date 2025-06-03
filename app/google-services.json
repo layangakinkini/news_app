@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "276758676331",
+    "firebase_url": "https://newsapp-ecb1e-default-rtdb.firebaseio.com",
+    "project_id": "newsapp-ecb1e",
+    "storage_bucket": "newsapp-ecb1e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276758676331:android:ee671510fc8d1c0bd7422e",
+        "android_client_info": {
+          "package_name": "com.layanga.tech_pulse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcGXwnQBPEua7D0MORmsaq7SwKgOPj_5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
