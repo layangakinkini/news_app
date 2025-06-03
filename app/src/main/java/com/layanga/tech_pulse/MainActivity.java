@@ -6,12 +6,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.activity.OnBackPressedCallback;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.news_card_6
     };
 
+    private String currentCategory = "all";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +54,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fetchNewsFromFirebase();
+
+        ImageButton sportBtn = findViewById(R.id.sport_button);
+        ImageButton educationBtn = findViewById(R.id.education_button);
+        ImageButton globalBtn = findViewById(R.id.global_button);
+
+        sportBtn.setOnClickListener(v -> fetchNewsFromCategory("sport"));
+        educationBtn.setOnClickListener(v -> fetchNewsFromCategory("education"));
+        globalBtn.setOnClickListener(v -> fetchNewsFromCategory("event"));
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!currentCategory.equals("all")) {
+                    currentCategory = "all"; // Reset the category
+                    fetchNewsFromFirebase(); // Load all news
+                    Toast.makeText(MainActivity.this, "Showing all news", Toast.LENGTH_SHORT).show();
+                } else {
+                    finish(); // Default back behavior
+                }
+            }
+        });
     }
 
+
+
     private void fetchNewsFromFirebase() {
+        currentCategory = "all";
+
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("news");
         List<NewsItem> newsList = new ArrayList<>();
 
@@ -80,10 +110,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void fetchNewsFromCategory(String category) {
+        currentCategory = category;
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("news").child(category);
+        List<NewsItem> newsList = new ArrayList<>();
+
+        dbRef.limitToFirst(6).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot newsSnap : snapshot.getChildren()) {
+                    NewsItem item = newsSnap.getValue(NewsItem.class);
+                    if (item != null) newsList.add(item);
+                }
+
+                displayNews(newsList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e("Firebase", "Error loading " + category, error.toException());
+            }
+        });
+    }
+
     private void displayNews(List<NewsItem> newsList) {
+        for (int i = 0; i < cardIds.length; i++) {
+            View card = findViewById(cardIds[i]);
+            card.setVisibility(View.GONE);
+        }
+
         for (int i = 0; i < newsList.size(); i++) {
             NewsItem item = newsList.get(i);
             View card = findViewById(cardIds[i]);
+            card.setVisibility(View.VISIBLE);
 
             ImageView imageView = card.findViewById(R.id.news_image);
             TextView titleView = card.findViewById(R.id.news_title);

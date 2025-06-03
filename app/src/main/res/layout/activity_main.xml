@@ -120,7 +120,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Home -->
+        <!-- sport -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -135,10 +135,11 @@
                 android:background="@drawable/card_gradient">
 
                 <ImageButton
+                    android:id="@+id/sport_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:contentDescription="Home"
+                    android:contentDescription="sport"
                     android:src="@drawable/sports_football_24dp__fill0_wght400_grad0_opsz24"/>
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -158,6 +159,7 @@
                 android:background="@drawable/card_gradient">
 
                 <ImageButton
+                    android:id="@+id/education_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -166,7 +168,7 @@
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Globe -->
+        <!--event -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -181,10 +183,11 @@
                 android:background="@drawable/card_gradient">
 
                 <ImageButton
+                    android:id="@+id/global_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:contentDescription="Globe"
+                    android:contentDescription="event"
                     android:src="@drawable/language_24dp__fill0_wght400_grad0_opsz24"/>
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
