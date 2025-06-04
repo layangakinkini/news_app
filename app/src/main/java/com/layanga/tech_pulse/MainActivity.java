@@ -2,6 +2,7 @@ package com.layanga.tech_pulse;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,13 +10,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.activity.OnBackPressedCallback;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +32,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     // View IDs for the 6 cards
     int[] cardIds = {
@@ -41,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String currentCategory = "all";
 
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navView      = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(this);
+
+        ImageView hamburger = findViewById(R.id.news_menu_icon);
+        hamburger.setOnClickListener(v ->
+                drawerLayout.openDrawer(GravityCompat.START));
+
         fetchNewsFromFirebase();
 
         ImageButton sportBtn = findViewById(R.id.sport_button);
@@ -63,9 +80,17 @@ public class MainActivity extends AppCompatActivity {
         educationBtn.setOnClickListener(v -> fetchNewsFromCategory("education"));
         globalBtn.setOnClickListener(v -> fetchNewsFromCategory("event"));
 
+        fetchNewsFromFirebase();
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return;
+                }
+
                 if (!currentCategory.equals("all")) {
                     currentCategory = "all"; // Reset the category
                     fetchNewsFromFirebase(); // Load all news
@@ -77,7 +102,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    
 
     private void fetchNewsFromFirebase() {
         currentCategory = "all";
