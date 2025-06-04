@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.activity.EdgeToEdge;
@@ -35,26 +36,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    // View IDs for the 6 cards
-    int[] cardIds = {
-            R.id.news_card_1,
-            R.id.news_card_2,
-            R.id.news_card_3,
-            R.id.news_card_4,
-            R.id.news_card_5,
-            R.id.news_card_6
-    };
-
     private String currentCategory = "all";
 
     private DrawerLayout drawerLayout;
     private NavigationView navView;
+    private LinearLayout newsCardsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        newsCardsContainer = findViewById(R.id.news_cards_container);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -122,16 +116,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 for (DataSnapshot categorySnap : snapshot.getChildren()) {
                     for (DataSnapshot newsSnap : categorySnap.getChildren()) {
                         NewsItem item = newsSnap.getValue(NewsItem.class);
-                        if (newsList.size() < 6) {
+                        if (item != null) {
                             newsList.add(item);
-                        } else {
-                            break;
                         }
                     }
-                    if (newsList.size() >= 6) break;
                 }
 
-                displayNews(newsList);
+                if (!newsList.isEmpty()) {
+                    displayNews(newsList);
+                } else {
+                    Toast.makeText(MainActivity.this, "No news available", Toast.LENGTH_SHORT).show();
+                    newsCardsContainer.removeAllViews();
+                }
             }
 
             @Override
@@ -166,15 +162,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void displayNews(List<NewsItem> newsList) {
-        for (int i = 0; i < cardIds.length; i++) {
-            View card = findViewById(cardIds[i]);
-            card.setVisibility(View.GONE);
-        }
+        newsCardsContainer.removeAllViews();  // *** UPDATED: clear existing cards ***
 
-        for (int i = 0; i < newsList.size(); i++) {
-            NewsItem item = newsList.get(i);
-            View card = findViewById(cardIds[i]);
-            card.setVisibility(View.VISIBLE);
+        for (NewsItem item : newsList) {
+            // *** UPDATED: Inflate and add cards dynamically ***
+            View card = getLayoutInflater().inflate(R.layout.news_card, newsCardsContainer, false);
 
             ImageView imageView = card.findViewById(R.id.news_image);
             TextView titleView = card.findViewById(R.id.news_title);
@@ -209,6 +201,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
             }
+
+            newsCardsContainer.addView(card);  // *** UPDATED: add card to container ***
         }
     }
 }

@@ -85,12 +85,14 @@
             android:layout_height="0dp"
             android:fillViewport="true"
             android:clipToPadding="false"
+            android:contentDescription="News articles scroll area"
             app:layout_constraintTop_toBottomOf="@id/frozen_top"
             app:layout_constraintBottom_toTopOf="@id/bottom_nav_buttons"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <LinearLayout
+                android:id="@+id/news_cards_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -99,12 +101,6 @@
                 android:paddingTop="0dp"
                 android:paddingBottom="56dp">
 
-                <include layout="@layout/news_card" android:id="@+id/news_card_1"/>
-                <include layout="@layout/news_card" android:id="@+id/news_card_2"/>
-                <include layout="@layout/news_card" android:id="@+id/news_card_3"/>
-                <include layout="@layout/news_card" android:id="@+id/news_card_4"/>
-                <include layout="@layout/news_card" android:id="@+id/news_card_5"/>
-                <include layout="@layout/news_card" android:id="@+id/news_card_6"/>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
