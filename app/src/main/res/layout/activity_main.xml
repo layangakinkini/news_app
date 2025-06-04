@@ -201,5 +201,6 @@
         android:fitsSystemWindows="true"
         app:itemHorizontalPadding="16dp"
         app:itemIconTint="@null"
+        app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu"/>
 </androidx.drawerlayout.widget.DrawerLayout>
