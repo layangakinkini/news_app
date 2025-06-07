@@ -143,22 +143,45 @@ public class user_info extends AppCompatActivity {
 
             new android.os.Handler().postDelayed(() -> {
                 if (currentUsername != null) {
-                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUsername);
+                    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("users");
 
-                    userRef.child("username").setValue(newUsername);
-                    userRef.child("email").setValue(newEmail);
+                    dbRef.child(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // ✅ Copy data to new username key
+                                dbRef.child(newUsername).setValue(snapshot.getValue(), (error, ref) -> {
+                                    if (error == null) {
+                                        // ✅ Update email and username fields
+                                        dbRef.child(newUsername).child("username").setValue(newUsername);
+                                        dbRef.child(newUsername).child("email").setValue(newEmail);
 
-                    // Save updated username in SharedPreferences
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("username", currentUsername);
-                    editor.apply();
+                                        // ✅ Delete old username key
+                                        dbRef.child(currentUsername).removeValue();
 
-                    // Update UI immediately
-                    nameTextView.setText("Username : " + newUsername);
-                    emailTextView.setText("Email : " + newEmail);
+                                        // ✅ Update SharedPreferences
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putString("username", newUsername); // ✅ Updated username
+                                        editor.apply();
 
-                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                                        // ✅ Update UI
+                                        nameTextView.setText("Username : " + newUsername);
+                                        emailTextView.setText("Email : " + newEmail);
+
+                                        Toast.makeText(user_info.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    } else {
+                                        Toast.makeText(user_info.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            Toast.makeText(user_info.this, "Database error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }, 3000); // 3-second delay
         });
