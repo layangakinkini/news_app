@@ -39,7 +39,9 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
+
     implementation("com.squareup.picasso:picasso:2.8")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
