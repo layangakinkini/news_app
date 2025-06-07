@@ -16,7 +16,9 @@
 
         <!-- SplashScreen as Launcher -->
         <activity
+
             android:name=".SplashScreen"
+
 
             android:exported="true">
             <intent-filter>
