@@ -131,6 +131,13 @@ public class login extends AppCompatActivity {
                     String storedPassword = snapshot.child("password").getValue(String.class);
                     if (password.equals(storedPassword)) {
                         Toast.makeText(login.this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                        //Save username to SharedPreferences
+                        getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                                .edit()
+                                .putString("username", username)
+                                .apply();
+
                         startActivity(new Intent(login.this, MainActivity.class));
                         finish();
                     } else {
