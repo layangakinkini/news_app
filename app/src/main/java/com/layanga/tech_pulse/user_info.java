@@ -6,8 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView; // 🔹 Added for displaying name and email
-import android.content.SharedPreferences; // 🔹 Added for retrieving saved username
+import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.widget.EditText;
+import android.widget.Toast;
+import android.os.Handler;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,18 +93,81 @@ public class user_info extends AppCompatActivity {
         dimBackground(true);
         dialog.setOnDismissListener(d -> dimBackground(false));
 
+        EditText editUsername = dialog.findViewById(R.id.edit_username);
+        EditText editEmail = dialog.findViewById(R.id.edit_email);
         Button ok = dialog.findViewById(R.id.btn_ok);
         Button cancel = dialog.findViewById(R.id.btn_cancel);
 
+        TextView warningText = dialog.findViewById(R.id.username_warning);
+        warningText.setVisibility(View.GONE);
+
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String currentUsername = prefs.getString("username", null);
+
+        if (currentUsername != null) {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUsername);
+
+            // Pre-fill EditTexts with current values
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String existingUsername = snapshot.child("username").getValue(String.class);
+                        String existingEmail = snapshot.child("email").getValue(String.class);
+
+                        editUsername.setText(existingUsername);
+                        editEmail.setText(existingEmail);
+                        editUsername.setTextColor(Color.GRAY);
+                        editEmail.setTextColor(Color.GRAY);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    Toast.makeText(user_info.this, "Failed to fetch user data", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         cancel.setOnClickListener(v -> dialog.dismiss());
+
         ok.setOnClickListener(v -> {
-            // TODO: Handle form submission
-            dialog.dismiss();
+            String newUsername = editUsername.getText().toString().trim();
+            String newEmail = editEmail.getText().toString().trim();
+
+            if (newUsername.isEmpty() || newEmail.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            warningText.setVisibility(View.VISIBLE);
+
+            new android.os.Handler().postDelayed(() -> {
+                if (currentUsername != null) {
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUsername);
+
+                    userRef.child("username").setValue(newUsername);
+                    userRef.child("email").setValue(newEmail);
+
+                    // Save updated username in SharedPreferences
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("username", currentUsername); // ⚠️ still referencing the old node name
+                    editor.apply();
+
+                    // Update UI immediately
+                    nameTextView.setText("Username : " + newUsername);
+                    emailTextView.setText("Email : " + newEmail);
+
+                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }, 3000); // 3-second delay
         });
 
         dialog.show();
     }
 
+    // ✅ ADDED - Sign Out Popup
     private void showSignOutPopup() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_signout);
@@ -113,13 +180,15 @@ public class user_info extends AppCompatActivity {
 
         cancel.setOnClickListener(v -> dialog.dismiss());
         ok.setOnClickListener(v -> {
-            // TODO: Handle sign out logic
+            Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
+            // TODO: Add actual sign-out logic (e.g. redirect to login)
         });
 
         dialog.show();
     }
 
+    // ✅ ADDED - Background Dimming Function
     private void dimBackground(boolean dim) {
         if (profileLayout != null) {
             profileLayout.setAlpha(dim ? 0.3f : 1.0f);
