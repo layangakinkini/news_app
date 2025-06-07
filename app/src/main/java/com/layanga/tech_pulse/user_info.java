@@ -10,8 +10,6 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.os.Handler;
-
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.database.DataSnapshot; // 🔹 Firebase imports
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,7 +27,7 @@ public class user_info extends AppCompatActivity {
 
     private View profileLayout;
 
-    // 🔹 Declare TextViews
+    //Declare TextViews
     private TextView nameTextView, emailTextView;
 
     @Override
@@ -51,15 +49,15 @@ public class user_info extends AppCompatActivity {
         btnEdit.setOnClickListener(v -> showEditPopup());
         btnSignOut.setOnClickListener(v -> showSignOutPopup());
 
-        // 🔹 Initialize TextViews (make sure these IDs match your layout XML)
+        //Initialize TextViews (make sure these IDs match your layout XML)
         nameTextView = findViewById(R.id.userName);
         emailTextView = findViewById(R.id.email);
 
-        // 🔹 Fetch and display user info
+        //Fetch and display user info
         loadUserInfo();
     }
 
-    // 🔹 Function to load user data from Firebase
+    //Function to load user data from Firebase
     private void loadUserInfo() {
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = prefs.getString("username", null);
@@ -151,7 +149,7 @@ public class user_info extends AppCompatActivity {
 
                     // Save updated username in SharedPreferences
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("username", currentUsername); // ⚠️ still referencing the old node name
+                    editor.putString("username", currentUsername);
                     editor.apply();
 
                     // Update UI immediately
@@ -167,7 +165,7 @@ public class user_info extends AppCompatActivity {
         dialog.show();
     }
 
-    // ✅ ADDED - Sign Out Popup
+    //Sign Out Popup
     private void showSignOutPopup() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_signout);
@@ -188,7 +186,7 @@ public class user_info extends AppCompatActivity {
         dialog.show();
     }
 
-    // ✅ ADDED - Background Dimming Function
+    //Background Dimming Function
     private void dimBackground(boolean dim) {
         if (profileLayout != null) {
             profileLayout.setAlpha(dim ? 0.3f : 1.0f);
