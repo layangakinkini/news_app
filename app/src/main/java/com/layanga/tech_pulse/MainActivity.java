@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.activity.EdgeToEdge;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private LinearLayout newsCardsContainer;
+    private ProgressBar loadingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         newsCardsContainer = findViewById(R.id.news_cards_container);
+        loadingSpinner = findViewById(R.id.loading_spinner);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void fetchNewsFromFirebase() {
         currentCategory = "all";
+        loadingSpinner.setVisibility(View.VISIBLE);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("news");
         List<NewsItem> newsList = new ArrayList<>();
@@ -128,17 +132,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(MainActivity.this, "No news available", Toast.LENGTH_SHORT).show();
                     newsCardsContainer.removeAllViews();
                 }
+
+                loadingSpinner.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.e("Firebase", "Data load failed", error.toException());
+                loadingSpinner.setVisibility(View.GONE);
             }
         });
     }
 
     private void fetchNewsFromCategory(String category) {
         currentCategory = category;
+        loadingSpinner.setVisibility(View.VISIBLE);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("news").child(category);
         List<NewsItem> newsList = new ArrayList<>();
@@ -152,20 +160,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 displayNews(newsList);
+                loadingSpinner.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.e("Firebase", "Error loading " + category, error.toException());
+                loadingSpinner.setVisibility(View.GONE);
             }
         });
     }
 
     private void displayNews(List<NewsItem> newsList) {
-        newsCardsContainer.removeAllViews();  // *** UPDATED: clear existing cards ***
+        newsCardsContainer.removeAllViews();
 
         for (NewsItem item : newsList) {
-            // *** UPDATED: Inflate and add cards dynamically ***
+
             View card = getLayoutInflater().inflate(R.layout.news_card, newsCardsContainer, false);
 
             ImageView imageView = card.findViewById(R.id.news_image);
@@ -187,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (contentView != null && item.content != null) {
                 contentView.setText(item.content);
-                contentView.setVisibility(View.GONE); // initially hidden
+                contentView.setVisibility(View.GONE);
             }
 
             if (readMoreButton != null && contentView != null) {
@@ -202,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
             }
 
-            newsCardsContainer.addView(card);  // *** UPDATED: add card to container ***
+            newsCardsContainer.addView(card);
         }
     }
 }

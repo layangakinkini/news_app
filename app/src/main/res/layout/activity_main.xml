@@ -15,6 +15,20 @@
         android:background="@drawable/background_gradient"
         tools:context=".MainActivity">
 
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminate="true"
+            style="?android:attr/progressBarStyleLarge"
+            android:elevation="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <!-- Frozen purple header -->
         <LinearLayout
             android:id="@+id/frozen_top"
