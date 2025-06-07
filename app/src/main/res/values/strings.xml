@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">TECH_PULSE</string>
+    <string name="app_name">TECH PULSE</string>
+    <string name="my_icon_description">Settings icon</string>
+
 </resources>
