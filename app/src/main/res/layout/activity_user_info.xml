@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/user_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,18 +15,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="USER INFO"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:textColor="#000000"
+        android:fontFamily="@font/abrilfatface_regular"
+        android:textSize="32dp"
+        android:textColor="#4B1213"
         android:layout_marginTop="40dp" />
 
     <!-- Profile Icon -->
     <ImageView
         android:id="@+id/profileIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/person_add_24dp_1f1f1f_fill0_wght400_grad0_opsz24"
+        android:src="@drawable/person_add_29dp_1f1f1f_fill0_wght100_grad_25_opsz24"
         android:contentDescription="Profile Icon"
         android:background="@drawable/user_circle_background"
         android:padding="20dp" />
@@ -37,10 +38,12 @@
         android:orientation="vertical"
         android:background="@drawable/info_card_background"
         android:layout_marginTop="30dp"
-        android:padding="20dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:paddingTop="95dp"
+        android:paddingBottom="95dp"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:elevation="4dp"
         android:clipToPadding="false"
         android:layout_gravity="center">
@@ -63,21 +66,33 @@
     </LinearLayout>
 
     <!-- Sign Out Button -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSignOut"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="SIGN OUT"
-        android:background="@drawable/button_gradient"
+        android:textSize="24dp"
+        android:fontFamily="@font/abrilfatface_regular"
         android:textColor="#FFFFFF"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_gradient"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@null"/>
 
     <!-- Edit Button -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEdit"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="EDIT"
+        android:textSize="24dp"
+        android:fontFamily="@font/abrilfatface_regular"
+        android:textColor="#FFFFFF"
         android:background="@drawable/button_gradient"
-        android:textColor="#FFFFFF" />
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@null"/>
+
+
 </LinearLayout>
