@@ -4,15 +4,17 @@ public class HelperClass {
     private String username;
     private String email;
     private String createdAt;
+    private String password;
 
     // Default constructor required for calls to DataSnapshot.getValue(HelperClass.class)
     public HelperClass() {
     }
 
-    public HelperClass(String username, String email, String createdAt) {
+    public HelperClass(String username, String email, String createdAt, String password) {
         this.username = username;
         this.email = email;
         this.createdAt = createdAt;
+        this.password = password;
     }
 
     // Getter and Setter methods
@@ -39,5 +41,12 @@ public class HelperClass {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
