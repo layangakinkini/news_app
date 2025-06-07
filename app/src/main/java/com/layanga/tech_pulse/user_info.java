@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView; // 🔹 Added for displaying name and email
+import android.content.SharedPreferences; // 🔹 Added for retrieving saved username
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,33 +15,73 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DataSnapshot; // 🔹 Firebase imports
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class user_info extends AppCompatActivity {
 
     private View profileLayout;
+
+    // 🔹 Declare TextViews
+    private TextView nameTextView, emailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_info);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.user_info), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Reference to layout to dim
         profileLayout = findViewById(R.id.profile_layout);
-
-        // Button listeners
         Button btnEdit = findViewById(R.id.btnEdit);
         Button btnSignOut = findViewById(R.id.btnSignOut);
 
         btnEdit.setOnClickListener(v -> showEditPopup());
         btnSignOut.setOnClickListener(v -> showSignOutPopup());
+
+        // 🔹 Initialize TextViews (make sure these IDs match your layout XML)
+        nameTextView = findViewById(R.id.userName);
+        emailTextView = findViewById(R.id.email);
+
+        // 🔹 Fetch and display user info
+        loadUserInfo();
     }
 
-    //Function to show Edit popup
+    // 🔹 Function to load user data from Firebase
+    private void loadUserInfo() {
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = prefs.getString("username", null);
+
+        if (username != null) {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(username);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String name = snapshot.child("username").getValue(String.class);
+                        String email = snapshot.child("email").getValue(String.class);
+
+                        nameTextView.setText("Username : " + name);
+                        emailTextView.setText("Email : " + email);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Optional: Show error message
+                }
+            });
+        }
+    }
+
     private void showEditPopup() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_edit);
@@ -59,7 +101,6 @@ public class user_info extends AppCompatActivity {
         dialog.show();
     }
 
-    //Function to show Sign Out popup
     private void showSignOutPopup() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_signout);
@@ -79,7 +120,6 @@ public class user_info extends AppCompatActivity {
         dialog.show();
     }
 
-    //Dim background by changing alpha
     private void dimBackground(boolean dim) {
         if (profileLayout != null) {
             profileLayout.setAlpha(dim ? 0.3f : 1.0f);
