@@ -120,7 +120,7 @@ public class signup extends AppCompatActivity {
         //Handle "Already have an account? Login" click
         TextView tvLogin = findViewById(R.id.tvLogin);
         tvLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(signup.this, MainActivity.class);
+            Intent intent = new Intent(signup.this, login.class);
             startActivity(intent);
             finish(); // Optional
         });

@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.activity.EdgeToEdge;
@@ -33,6 +34,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -101,11 +104,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_dev_info) { // Make sure this ID matches the one in your nav menu XML
+            startActivity(new Intent(MainActivity.this, dev_info.class));
+        } else if (id == R.id.nav_user_info) {
+            startActivity(new Intent(MainActivity.this, user_info.class));
+        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-    
+
+
 
     private void fetchNewsFromFirebase() {
         currentCategory = "all";

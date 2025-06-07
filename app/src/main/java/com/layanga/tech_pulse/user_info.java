@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -180,7 +181,11 @@ public class user_info extends AppCompatActivity {
         ok.setOnClickListener(v -> {
             Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
-            // TODO: Add actual sign-out logic (e.g. redirect to login)
+
+            Intent intent = new Intent(user_info.this, login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear backstack
+            startActivity(intent);
+            finish();
         });
 
         dialog.show();

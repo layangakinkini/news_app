@@ -71,7 +71,7 @@ public class login extends AppCompatActivity {
 
         //Redirect to signup page if user taps "sign up"
         tvLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(login.this, MainActivity.class);
+            Intent intent = new Intent(login.this, signup.class);
             startActivity(intent);
             finish();
         });
