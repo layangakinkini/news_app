@@ -31,7 +31,7 @@ public class user_info extends AppCompatActivity {
         // Reference to layout to dim
         profileLayout = findViewById(R.id.profile_layout);
 
-        // 🆕 NEW: Button listeners
+        // Button listeners
         Button btnEdit = findViewById(R.id.btnEdit);
         Button btnSignOut = findViewById(R.id.btnSignOut);
 
@@ -39,7 +39,7 @@ public class user_info extends AppCompatActivity {
         btnSignOut.setOnClickListener(v -> showSignOutPopup());
     }
 
-    // 🆕 NEW: Function to show Edit popup
+    //Function to show Edit popup
     private void showEditPopup() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_edit);
@@ -59,7 +59,7 @@ public class user_info extends AppCompatActivity {
         dialog.show();
     }
 
-    // 🆕 NEW: Function to show Sign Out popup
+    //Function to show Sign Out popup
     private void showSignOutPopup() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_signout);
@@ -79,7 +79,7 @@ public class user_info extends AppCompatActivity {
         dialog.show();
     }
 
-    // 🆕 NEW: Dim background by changing alpha
+    //Dim background by changing alpha
     private void dimBackground(boolean dim) {
         if (profileLayout != null) {
             profileLayout.setAlpha(dim ? 0.3f : 1.0f);
