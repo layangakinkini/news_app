@@ -1,6 +1,7 @@
 package com.layanga.tech_pulse;
 
 import android.os.Bundle;
+import android.Manifest;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,12 +12,18 @@ import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.widget.ImageView;
+import androidx.annotation.NonNull;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,12 +31,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class user_info extends AppCompatActivity {
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 100;
 
     private View profileLayout;
 
     //Declare TextViews
     private TextView nameTextView, emailTextView;
+    private ImageView profileIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +65,61 @@ public class user_info extends AppCompatActivity {
         //Initialize TextViews (make sure these IDs match your layout XML)
         nameTextView = findViewById(R.id.userName);
         emailTextView = findViewById(R.id.email);
+        profileIcon = findViewById(R.id.profileIcon);
+
+        // Set click listener on profile icon to pick image
+        profileIcon.setOnClickListener(v -> checkPermissionAndOpenImageChooser());
 
         //Fetch and display user info
         loadUserInfo();
     }
+
+    // Check permission and open image chooser
+    private void checkPermissionAndOpenImageChooser() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            openImageChooser();
+        }
+    }
+
+    // Open the system image picker
+    private void openImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    // Handle permission result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openImageChooser();
+            } else {
+                Toast.makeText(this, "Permission denied to read external storage", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // Handle image chooser result                                 // **ADDED**
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+
+            // Display the selected image in the ImageView          // **ADDED**
+            profileIcon.setImageURI(imageUri);
+        }
+    }
+
 
     //Function to load user data from Firebase
     private void loadUserInfo() {
@@ -149,22 +212,22 @@ public class user_info extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             if (snapshot.exists()) {
-                                // ✅ Copy data to new username key
+                                // Copy data to new username key
                                 dbRef.child(newUsername).setValue(snapshot.getValue(), (error, ref) -> {
                                     if (error == null) {
-                                        // ✅ Update email and username fields
+                                        // Update email and username fields
                                         dbRef.child(newUsername).child("username").setValue(newUsername);
                                         dbRef.child(newUsername).child("email").setValue(newEmail);
 
-                                        // ✅ Delete old username key
+                                        // Delete old username key
                                         dbRef.child(currentUsername).removeValue();
 
-                                        // ✅ Update SharedPreferences
+                                        // Update SharedPreferences
                                         SharedPreferences.Editor editor = prefs.edit();
-                                        editor.putString("username", newUsername); // ✅ Updated username
+                                        editor.putString("username", newUsername); // Updated username
                                         editor.apply();
 
-                                        // ✅ Update UI
+                                        // Update UI
                                         nameTextView.setText("Username : " + newUsername);
                                         emailTextView.setText("Email : " + newEmail);
 

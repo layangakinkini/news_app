@@ -42,7 +42,8 @@ dependencies {
 
 
     implementation("com.squareup.picasso:picasso:2.8")
-
+    implementation(libs.firebase.ai)
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
 
     testImplementation(libs.junit)

@@ -21,7 +21,7 @@
         android:layout_marginTop="40dp" />
 
     <!-- Profile Icon -->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileIcon"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -29,7 +29,8 @@
         android:src="@drawable/person_add_29dp_1f1f1f_fill0_wght100_grad_25_opsz24"
         android:contentDescription="Profile Icon"
         android:background="@drawable/user_circle_background"
-        android:padding="20dp" />
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"/>
 
     <!-- Info Card -->
     <LinearLayout

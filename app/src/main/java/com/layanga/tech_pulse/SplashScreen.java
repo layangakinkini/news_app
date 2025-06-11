@@ -27,7 +27,7 @@ public class SplashScreen extends AppCompatActivity {
 
         // Delay and navigate to MainActivity
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashScreen.this, signup.class));
+            startActivity(new Intent(SplashScreen.this, login.class));
             finish(); // Finish splash so user can't return to it
         }, 3000); // 3-second delay
     }
