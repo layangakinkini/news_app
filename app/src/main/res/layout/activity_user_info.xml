@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/user_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/user_background_gradient"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="20dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/userInfoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USER INFO"
+        android:fontFamily="@font/abrilfatface_regular"
+        android:textSize="32dp"
+        android:textColor="#4B1213"
+        android:layout_marginTop="40dp" />
+
+    <!-- Profile Icon -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileIcon"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/person_add_29dp_1f1f1f_fill0_wght100_grad_25_opsz24"
+        android:contentDescription="Profile Icon"
+        android:background="@drawable/user_circle_background"
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"/>
+
+    <!-- Info Card -->
+    <LinearLayout
+        android:id="@+id/profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/info_card_background"
+        android:layout_marginTop="30dp"
+        android:paddingTop="95dp"
+        android:paddingBottom="95dp"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:elevation="4dp"
+        android:clipToPadding="false"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name : name_here"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email : sample@email.com"
+            android:layout_marginTop="10dp"
+            android:textColor="#555555" />
+    </LinearLayout>
+
+    <!-- Sign Out Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSignOut"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="SIGN OUT"
+        android:textSize="24dp"
+        android:fontFamily="@font/abrilfatface_regular"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_gradient"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@null"/>
+
+    <!-- Edit Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEdit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="EDIT"
+        android:textSize="24dp"
+        android:fontFamily="@font/abrilfatface_regular"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_gradient"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@null"/>
+
+
+</LinearLayout>
